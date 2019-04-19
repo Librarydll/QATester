@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:QATester.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="ShellView" Height="700" Width="800">
-    <Grid>
+        Title="ShellView" Height="710" Width="800">
 
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>
@@ -27,29 +27,75 @@
         </WrapPanel>
         <StackPanel Grid.Column="1" Grid.Row="1">
             <Border Margin="10" BorderThickness="5" BorderBrush="LightBlue" CornerRadius="5">
-                <TextBlock  Padding="5" Height="65">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontWeight="DemiBold" Padding="10" FontSize="20" Height="65" Text="{Binding Path=Data[0],UpdateSourceTrigger=PropertyChanged}">
                 </TextBlock>
             </Border>
             <Rectangle Margin="10,40,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" Height="15"
                        Width="500" Fill="#FFEEECEC" RenderTransformOrigin="0,1" RadiusY="7.5" RadiusX="7.5">
             </Rectangle>
             <!--1-->
-            <QATester:TextBlockShowUserControl Margin="10" Height="60">
-            </QATester:TextBlockShowUserControl>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton IsChecked="{Binding Path=RadioButtonIsChecked[0],UpdateSourceTrigger=PropertyChanged}" GroupName="mm" HorizontalAlignment="Center" VerticalAlignment="Center"></RadioButton>
+                <Border Grid.Column="1" BorderBrush="LightBlue" BorderThickness="4" CornerRadius="5" HorizontalAlignment="Stretch">
+                    <TextBlock Padding="16" Text="{Binding Path=Data[1],UpdateSourceTrigger=PropertyChanged}"  TextAlignment="Center" TextWrapping="Wrap" FontSize="17" Height="65" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </TextBlock>
+                </Border>
+            </Grid>
+           
             <!--2-->
-            <QATester:TextBlockShowUserControl Margin="10" Height="60">
-            </QATester:TextBlockShowUserControl>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton GroupName="mm" IsChecked="{Binding Path=RadioButtonIsChecked[1],UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"></RadioButton>
+                <Border Grid.Column="1" BorderBrush="LightBlue" BorderThickness="4" CornerRadius="5" HorizontalAlignment="Stretch">
+                    <TextBlock Padding="16" Text="{Binding Path=Data[2],UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" TextWrapping="Wrap" FontSize="17" Height="65" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    </TextBlock>
+                </Border>
+            </Grid>
             <!--3-->
-            <QATester:TextBlockShowUserControl Margin="10" Height="60">
-            </QATester:TextBlockShowUserControl>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton GroupName="mm" IsChecked="{Binding Path=RadioButtonIsChecked[2],UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"></RadioButton>
+                <Border Grid.Column="1" BorderBrush="LightBlue" BorderThickness="4" CornerRadius="5" HorizontalAlignment="Stretch">
+                    <TextBlock Padding="16" Text="{Binding Path=Data[3],UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" TextWrapping="Wrap" FontSize="17" Height="65" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    </TextBlock>
+                </Border>
+            </Grid>
             <!--4-->
-            <QATester:TextBlockShowUserControl Margin="10" Height="60">
-            </QATester:TextBlockShowUserControl>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton GroupName="mm" IsChecked="{Binding Path=RadioButtonIsChecked[3],UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"></RadioButton>
+                <Border Grid.Column="1" BorderBrush="LightBlue" BorderThickness="4" CornerRadius="5" HorizontalAlignment="Stretch">
+                    <TextBlock Padding="16" Text="{Binding Path=Data[4],UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" TextWrapping="Wrap" FontSize="17" Height="65" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    </TextBlock>
+                </Border>
+            </Grid>
             <!--5-->
-            <QATester:TextBlockShowUserControl Margin="10" Height="60">
-            </QATester:TextBlockShowUserControl>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <RadioButton GroupName="mm" IsChecked="{Binding Path=RadioButtonIsChecked[4],UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"></RadioButton>
+                <Border Grid.Column="1" BorderBrush="LightBlue" BorderThickness="4" CornerRadius="5" HorizontalAlignment="Stretch">
+                    <TextBlock Padding="16" Text="{Binding Path=Data[5],UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" TextWrapping="Wrap" FontSize="17" Height="65" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    </TextBlock>
+                </Border>
+            </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Width="110" Height="50" Style="{StaticResource MainButtons}">
+                <Button x:Name="PreviousClick" Width="110" Height="50" Style="{StaticResource MainButtons}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="100">
                         <materialDesign:PackIcon Foreground="Blue" Kind="NavigateBefore" Margin="3,6,3,0" Height="32"/>
                         <TextBlock FontSize="15" Text="Previous" Margin="3,10,0,12" Width="63"></TextBlock>

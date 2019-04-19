@@ -84,9 +84,6 @@
     <Compile Include="Helpers\RandomHelper.cs" />
     <Compile Include="Helpers\SDClass.cs" />
     <Compile Include="Model\Questions.cs" />
-    <Compile Include="TextBlockShowUserControl.xaml.cs">
-      <DependentUpon>TextBlockShowUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -123,10 +120,6 @@
     <Page Include="DictionaryStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="TextBlockShowUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShellView.xaml">
       <SubType>Designer</SubType>
