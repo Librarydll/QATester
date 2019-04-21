@@ -1,0 +1,28 @@
+﻿<Window x:Class="QATester.Views.ResultView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QATester.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Result" Height="450" Width="800">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Margin="15" x:Name="RightAnswerCount">smth
+        </TextBlock>
+        <Button x:Name="Report" HorizontalAlignment="Center" VerticalAlignment="Center"  Grid.Row="1" Height="30" Width="100" FontWeight="DemiBold" Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Report"/>
+                <TextBlock Text=" See report" />
+            </StackPanel>
+        </Button>
+        <ListBox Grid.Row="2" ItemsSource="{Binding Path=ResultItem}">
+        </ListBox>
+    </Grid>
+</Window>

@@ -12,6 +12,7 @@ using System.Collections;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.IO;
 
 namespace QATester.ViewModels
 {
@@ -20,6 +21,7 @@ namespace QATester.ViewModels
 		int m = 1,
 			s = 5;
 		DispatcherTimer timer = null;
+		IWindowManager window = new WindowManager();
 		#region Field
 		private readonly string testPath = @"C:\Users\Komil\Pictures\w.tst";
 		private List<Questions> questionList = new List<Questions>(); //container where all data will be hold
@@ -30,7 +32,7 @@ namespace QATester.ViewModels
 		private BindableCollection<bool> _radioButtonIsChecked = new BindableCollection<bool>() { false, false, false, false, false }; //which answer will be selected
 		private BindableCollection<Visibility> _extraAnswerVisibility = new BindableCollection<Visibility>() { Visibility.Collapsed, Visibility.Collapsed };
 		private string _timerXAML;
-		private Brush brush;
+		//private Brush brush;
 		#endregion
 		#region Property
 		public int[] RightAnswerCount { get; set; }
@@ -56,6 +58,15 @@ namespace QATester.ViewModels
 			set { _data = value; NotifyOfPropertyChange(() => Data); }
 		}
 		#endregion
+
+		private string _title;
+
+		public string Title
+		{
+			get { return _title; }
+			set { _title = value; NotifyOfPropertyChange(() => Title); }
+		}
+
 		private SolidColorBrush _foregroundTimer = Brushes.Black;
 
 		public SolidColorBrush ForegroundTimer  
@@ -71,13 +82,14 @@ namespace QATester.ViewModels
 			timer.Tick += new EventHandler(Timer_Tick);
 			timer.Interval = new TimeSpan(0, 0, 1);
 			timer.Start();
-			//if(InformationTransfer.Args.Length>0)
-			//questionList = deserialization.DeserializeXml(InformationTransfer.Args[0]);
-			//var _temp = deserialization.Deserialize(testPath);//for test
+			Title = "Test";
+			if(InformationTransfer.Args.Length>0)
+			{
+				questionList = deserialization.Deserialize(InformationTransfer.Args[0]);
+				Title = Path.GetFileNameWithoutExtension(InformationTransfer.Args[0]);
+			}
 			questionList = deserialization.Deserialize(testPath);
-			//_temp.Shuffle();
 			questionList.Shuffle();
-			//questionList = _temp.GetRange(0, _);
 			RightAnswerCount = new int[questionList.Count];
 			for (int i = 0; i < questionList.Count; i++)
 			{
@@ -89,7 +101,7 @@ namespace QATester.ViewModels
 
 		private void ShowCurrentQuestion()
 		{
-			if (CurrentQuestion == questionList.Count)
+			if (CurrentQuestion == questionList.Count||questionList.Count==0)
 				return;
 			int wrongAnswerCount = questionList[CurrentQuestion].WrongAnswer.Count;//Сюда и входит правильный ответ значит минимум 2
 			HideSomeAnswer(wrongAnswerCount);
@@ -116,7 +128,6 @@ namespace QATester.ViewModels
 			if (CurrentQuestion == questionList.Count)
 				CurrentQuestion--;
 			ShowCurrentQuestion();
-			Console.WriteLine(RightAnswerCount[0] + " " + RightAnswerCount[1]);
 		}
 		public void PreviousClick()
 		{
@@ -198,6 +209,18 @@ namespace QATester.ViewModels
 				TimerXAML = "00:00";
 		}
 
+		public void FinishTest()
+		{
+			MessageBoxResult message = MessageBox.Show("Do you really want to finish test?", "Finish", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+			if(message==MessageBoxResult.Yes)
+			{
+				InformationTransfer.QuestionList = questionList;
+				InformationTransfer.SelectedAnswer = selectedAnswer;
+				InformationTransfer.RightAnswer = RightAnswerCount;
+				window.ShowWindow(new ResultViewModel());	
+				TryClose();
+			}
+		}
 	}
 }
