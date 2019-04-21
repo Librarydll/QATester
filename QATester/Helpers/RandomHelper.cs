@@ -28,5 +28,22 @@ namespace QATester.Helpers
 				list[n] = value;
 			}
 		}
+
+		//Возвращает определеное колличество случайный чисел от 1 до count
+		public static List<int> GetRandom(int count)
+		{
+			List<int> listNumbers = new List<int>();
+			Random random = new Random();
+			int number;
+			for (int i = 0; i < count+1; i++)
+			{
+				do
+				{
+					number = random.Next(1, count+2);
+				} while (listNumbers.Contains(number));
+				listNumbers.Add(number);
+			}
+			return listNumbers;
+		}
 	}
 }
