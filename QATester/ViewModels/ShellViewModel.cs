@@ -18,12 +18,14 @@ namespace QATester.ViewModels
 {
 	class ShellViewModel : Screen
 	{
-		int m = 1,
-			s = 5;
+		int m = 29,
+			s = 60;
+        bool isTimerStop =false;
 		DispatcherTimer timer = null;
 		IWindowManager window = new WindowManager();
 		#region Field
-		private readonly string testPath = @"C:\Users\Komil\Pictures\w.tst";
+		private bool isWindowOpen = false;
+		//private readonly string testPath = @"C:\Users\Komil\Pictures\w.tst";
 		private List<Questions> questionList = new List<Questions>(); //container where all data will be hold
 		private QuestionSerialization deserialization = null;   //my class
 		private List<int> _randNumbers = new List<int>(); //random nubmber in order to select first n random question
@@ -58,6 +60,14 @@ namespace QATester.ViewModels
 			set { _data = value; NotifyOfPropertyChange(() => Data); }
 		}
 		#endregion
+		private Visibility _beginButtonVisibility = Visibility.Visible;
+
+		public Visibility BeginButtonVisibility
+		{
+			get { return _beginButtonVisibility; }
+			set { _beginButtonVisibility = value; NotifyOfPropertyChange(() => BeginButtonVisibility); }
+		}
+
 
 		private string _title;
 
@@ -81,14 +91,14 @@ namespace QATester.ViewModels
 			timer = new DispatcherTimer();
 			timer.Tick += new EventHandler(Timer_Tick);
 			timer.Interval = new TimeSpan(0, 0, 1);
-			timer.Start();
+			
 			Title = "Test";
 			if(InformationTransfer.Args.Length>0)
 			{
 				questionList = deserialization.Deserialize(InformationTransfer.Args[0]);
 				Title = Path.GetFileNameWithoutExtension(InformationTransfer.Args[0]);
 			}
-			questionList = deserialization.Deserialize(testPath);
+			//questionList = deserialization.Deserialize(testPath);
 			questionList.Shuffle();
 			RightAnswerCount = new int[questionList.Count];
 			for (int i = 0; i < questionList.Count; i++)
@@ -96,9 +106,15 @@ namespace QATester.ViewModels
 				RightAnswerCount[i] = -1;
 			}
 			selectedAnswer = Enumerable.Repeat(-1, questionList.Count).ToArray();
-			ShowCurrentQuestion();
 		}
 
+
+		public void BeginTest()
+		{
+			BeginButtonVisibility = Visibility.Collapsed;
+			timer.Start();
+			ShowCurrentQuestion();
+		}
 		private void ShowCurrentQuestion()
 		{
 			if (CurrentQuestion == questionList.Count||questionList.Count==0)
@@ -152,6 +168,8 @@ namespace QATester.ViewModels
 		}
 		public bool IsSelectedAnswerRight()
 		{
+			if (questionList.Count == 0)
+				return false;
 			//Здесю _data является тексблоками (их 6 штук с учетом вопросника)
 			//Далее первый индекс selectedAnswer это какой радиобаттон был нажал в данном воросе, а +1 озночает что мы исключаем
 			//Из коллекции _data первый элемент то есть вопрос
@@ -184,12 +202,12 @@ namespace QATester.ViewModels
 			{
 				ForegroundTimer = Brushes.Red;
 			}
-			bool check = false;
 			if (m == 0 && s == 1)
 			{
-				check = true;
+				isTimerStop = true;
 				TimerXAML = "00:00";
 				timer.Stop();
+               
 			}
 			s--;
 			if (s == 0)
@@ -205,16 +223,25 @@ namespace QATester.ViewModels
 				TimerXAML = "0" + m.ToString() + " : " + s.ToString();
 			if (m < 10 && s < 10)
 				TimerXAML = "0" + m.ToString() + ":" + "0" + s.ToString();		
-			if(check)
+			if(isTimerStop&&!isWindowOpen)
+            {
 				TimerXAML = "00:00";
-		}
+                InformationTransfer.QuestionList = questionList;
+                InformationTransfer.SelectedAnswer = selectedAnswer;
+                InformationTransfer.RightAnswer = RightAnswerCount;
+                window.ShowWindow(new ResultViewModel());
+                TryClose();
 
+			}
+				
+		}
 		public void FinishTest()
 		{
 			MessageBoxResult message = MessageBox.Show("Do you really want to finish test?", "Finish", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			if(message==MessageBoxResult.Yes)
 			{
+				isWindowOpen = true;
 				InformationTransfer.QuestionList = questionList;
 				InformationTransfer.SelectedAnswer = selectedAnswer;
 				InformationTransfer.RightAnswer = RightAnswerCount;
